@@ -7,14 +7,16 @@ Adapted from https://www.computervision.zone
 http://www.youtube.com/c/MurtazasWorkshopRoboticsandAI
 
 # Setup
-## Create virtual environment
-python -m venv .env
+## (OPTIONAL) Create and activate virtual environment
+Create:
 
-## Activate virtual environment
-.env\Scripts\activate
+        python -m venv .env
+Activate:
 
-## install dependencies 
-pip install opencv-python numpy mediapipe
+        .env\Scripts\activate
+
+## Install dependencies 
+        pip install opencv-python numpy mediapipe
 
 # Header folder
 Within your project folder, create a folder and name it "Header"

@@ -44,6 +44,7 @@ class handDetector():
         self.lmList = []
         if self.results.multi_hand_landmarks:
             myHand = self.results.multi_hand_landmarks[handNo]
+
             for id, lm in enumerate(myHand.landmark):
                 # print(id, lm)
                 h, w, c = img.shape
@@ -55,8 +56,14 @@ class handDetector():
                 if draw:
                     cv2.circle(img, (cx, cy), 5, (255, 0, 255), cv2.FILLED)
 
-        xmin, xmax = min(xList), max(xList)
-        ymin, ymax = min(yList), max(yList)
+        if len(xList) > 0 and len(yList) > 0:
+            xmin, xmax = min(xList), max(xList) 
+            ymin, ymax = min(yList), max(yList)
+        else:
+            xmin = 0
+            xmax = 0
+            ymin = 0
+            ymax = 0
         bbox = xmin, ymin, xmax, ymax
 
         if draw:
@@ -97,12 +104,32 @@ class handDetector():
             length = math.hypot(x2 - x1, y2 - y1)
 
         return length, img, [x1, y1, x2, y2, cx, cy]
+    def findHandLandMarks(self, image, handNumber=0, draw=False):
+        originalImage = image
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # mediapipe needs RGB
+        results = self.hands.process(image)
+        landMarkList = []
+
+        if results.multi_hand_landmarks:  # returns None if hand is not found
+            hand = results.multi_hand_landmarks[handNumber] #results.multi_hand_landmarks returns landMarks for all the hands
+
+            for id, landMark in enumerate(hand.landmark):
+                # landMark holds x,y,z ratios of single landmark
+                imgH, imgW, imgC = originalImage.shape  # height, width, channel for image
+                xPos, yPos = int(landMark.x * imgW), int(landMark.y * imgH)
+                landMarkList.append([id, xPos, yPos])
+
+            if draw:
+                self.mpDraw.draw_landmarks(originalImage, hand, self.mpHands.HAND_CONNECTIONS)
+
+        return landMarkList
 
 def main():
     pTime = 0
     cTime = 0
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
     detector = handDetector()
+        
     while True:
         success, img = cap.read()
         img = detector.findHands(img)

@@ -33,7 +33,17 @@ while True:
     # 3) Check which fingers are up
     # 2 fingers up = don't draw
     # 1 finger up = draw
-    
+
+    lmList, bbox = detector.findPosition(img, draw=False)
+
+    handLandmarks = detector.findHandLandMarks(image=img, draw=True)
+
+    if lmList:
+        # Find how many fingers are up
+        fingers = detector.fingersUp()
+        totalFingers = fingers.count(1)
+        cv2.putText(img, f'Fingers:{totalFingers}', (bbox[0] + 200, bbox[1] - 30),
+                    cv2.FONT_HERSHEY_PLAIN, 2, (0, 255, 0), 2)
     
     img[0:125, 0:1280] = header
     
