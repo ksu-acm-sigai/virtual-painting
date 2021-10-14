@@ -20,3 +20,9 @@ Activate:
 
 # Header folder
 Within your project folder, create a folder and name it "Header"
+
+# Helpful resources:
+[MediaPipe Hands official documentation - google.github.io](https://google.github.io/mediapipe/solutions/hands.html)
+
+[Building a Hand Tracking System using OpenCV](https://www.analyticsvidhya.com/blog/2021/07/building-a-hand-tracking-system-using-opencv/)
+

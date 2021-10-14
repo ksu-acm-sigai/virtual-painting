@@ -91,6 +91,7 @@ class handDetector():
 
         return fingers
 
+
     def findDistance(self, p1, p2, img, draw=True,r=15, t=3):
         x1, y1 = self.lmList[p1][1:]
         x2, y2 = self.lmList[p2][1:]
@@ -104,6 +105,7 @@ class handDetector():
             length = math.hypot(x2 - x1, y2 - y1)
 
         return length, img, [x1, y1, x2, y2, cx, cy]
+    
     def findHandLandMarks(self, image, handNumber=0, draw=False):
         originalImage = image
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)  # mediapipe needs RGB
